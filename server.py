@@ -1,27 +1,19 @@
-# server.py
-
-from typing import List, Dict, Any
-from pathlib import Path
 import re
+from pathlib import Path
+from typing import Any, Dict, List
 
 import duckdb
 import pandas as pd
-
 from fastmcp import FastMCP
 
-# Create FastMCP server
 mcp = FastMCP("data-lens")
-
-# In-memory DuckDB connection
 con = duckdb.connect(database=":memory:")
-
-# Track uploaded files (for list_files)
 ACTIVE_FILES: List[str] = []
 
 
 def sanitize_table_name(source: str) -> str:
     """Convert a file or sheet name into a safe SQL table name."""
-    name = Path(source).stem  # remove extension
+    name = Path(source).stem
     name = re.sub(r"[^a-zA-Z0-9_]", "_", name)
     return name.lower()
 
@@ -35,24 +27,15 @@ def reset_database():
 
 
 def is_safe_sql(sql: str) -> bool:
-    """
-    Very simple SQL safety filter.
-    Blocks destructive operations.
-    """
+    """Check if SQL query is safe (read-only)."""
     forbidden = ["DROP", "DELETE", "UPDATE", "ALTER", "CREATE TABLE"]
-    upper = sql.upper()
-    return not any(word in upper for word in forbidden)
+    return not any(word in sql.upper() for word in forbidden)
 
 
 def load_file_to_duckdb(file_path: str) -> List[str]:
-    """
-    Load a spreadsheet file into DuckDB.
-    Returns a list of created table names.
-    Replaces the previous dataset (single-file mode).
-    """
+    """Load a spreadsheet file into DuckDB and return table names."""
     global con, ACTIVE_FILES
 
-    # Reset DB for now (single active dataset)
     con.close()
     con = duckdb.connect(database=":memory:")
 
@@ -64,13 +47,13 @@ def load_file_to_duckdb(file_path: str) -> List[str]:
         for sheet in excel.sheet_names:
             df = excel.parse(sheet)
             table = sanitize_table_name(sheet)
-            con.execute("CREATE TABLE {} AS SELECT * FROM df".format(table))
+            con.execute(f"CREATE TABLE {table} AS SELECT * FROM df")
             tables.append(table)
 
     elif ext in ("csv", "tsv"):
         df = pd.read_csv(file_path)
         table = sanitize_table_name(file_path)
-        con.execute("CREATE TABLE {} AS SELECT * FROM df".format(table))
+        con.execute(f"CREATE TABLE {table} AS SELECT * FROM df")
         tables.append(table)
 
     elif ext == "parquet":
@@ -81,35 +64,25 @@ def load_file_to_duckdb(file_path: str) -> List[str]:
     else:
         raise ValueError(f"Unsupported file format: {ext}")
 
-    # Track only this file (single-file mode)
     ACTIVE_FILES = [file_path]
-
     return tables
 
 
 def get_table_schema(table: str) -> Dict[str, Any]:
-    """Return columns + sample values for a table."""
-    # DESCRIBE returns: [ (column_name, column_type, ...), ... ]
+    """Extract column information and sample values from a table."""
     rows = con.execute(f"DESCRIBE {table}").fetchall()
     columns = {r[0]: r[1] for r in rows}
 
-    # Get first 5 rows as samples
     df = con.execute(f"SELECT * FROM {table} LIMIT 5").fetchdf()
     sample_values = {col: df[col].astype(str).tolist() for col in df.columns}
 
-    return {
-        "columns": columns,
-        "sample_values": sample_values,
-    }
+    return {"columns": columns, "sample_values": sample_values}
 
 
 @mcp.prompt("text_to_sql_guide")
 def text_to_sql_guide() -> str:
-    """
-    Prompt that teaches the LLM how to use data-lens for Text-to-SQL with DuckDB.
-    """
-    return """
-You are a SQL reasoning assistant for the data-lens MCP server.
+    """Guide for LLMs on how to use data-lens for Text-to-SQL with DuckDB."""
+    return """You are a SQL reasoning assistant for the data-lens MCP server.
 
 Your job is to analyze spreadsheet data by:
 1. Inspecting schema using the get_schema tool.
@@ -141,61 +114,40 @@ Rules:
 
 When you answer the user:
 - First, ensure your SQL is correct and has been executed via run_sql.
-- Then summarize the results in natural language.
-"""
+- Display all tabular results (from preview_rows or run_sql) as markdown tables.
+- Then summarize the key findings in natural language."""
 
 
 @mcp.tool()
 def load_file(file_path: str) -> Dict[str, Any]:
-    """
-    Load a spreadsheet file (Excel/CSV/Parquet) into DuckDB.
-    Replaces any previously loaded dataset (single-file mode).
-    Returns the list of created table names.
-    """
+    """Load a spreadsheet file (Excel/CSV/Parquet) into DuckDB."""
     tables = load_file_to_duckdb(file_path)
-    return {
-        "file_path": file_path,
-        "tables": tables,
-        "mode": "single_file"
-    }
+    return {"file_path": file_path, "tables": tables, "mode": "single_file"}
 
 
 @mcp.tool()
 def list_files() -> Dict[str, Any]:
-    """
-    List all files loaded into data-lens in this session.
-    """
+    """List all files loaded into data-lens in this session."""
     return {"files": ACTIVE_FILES}
 
 
 @mcp.tool()
 def list_tables() -> Dict[str, Any]:
-    """
-    List all DuckDB tables currently available.
-    """
-    rows = con.execute(
-        "SELECT table_name FROM information_schema.tables"
-    ).fetchall()
+    """List all DuckDB tables currently available."""
+    rows = con.execute("SELECT table_name FROM information_schema.tables").fetchall()
     return {"tables": [r[0] for r in rows]}
 
 
 @mcp.tool()
 def list_columns(table: str) -> Dict[str, Any]:
-    """
-    List columns for a specific table, with their types.
-    """
+    """List columns for a specific table with their types."""
     rows = con.execute(f"DESCRIBE {table}").fetchall()
-    return {
-        "table": table,
-        "columns": [{"name": r[0], "type": r[1]} for r in rows]
-    }
+    return {"table": table, "columns": [{"name": r[0], "type": r[1]} for r in rows]}
 
 
 @mcp.tool()
 def preview_rows(table: str, limit: int = 5) -> Dict[str, Any]:
-    """
-    Return the first `limit` rows of a table, as strings.
-    """
+    """Return the first N rows of a table."""
     df = con.execute(f"SELECT * FROM {table} LIMIT {limit}").fetchdf()
     return {
         "table": table,
@@ -207,34 +159,16 @@ def preview_rows(table: str, limit: int = 5) -> Dict[str, Any]:
 
 @mcp.tool()
 def get_schema() -> Dict[str, Any]:
-    """
-    Return schema info for all tables:
-    - table names
-    - columns + types
-    - sample values
-    """
-    rows = con.execute(
-        "SELECT table_name FROM information_schema.tables"
-    ).fetchall()
+    """Return schema information for all tables including sample values."""
+    rows = con.execute("SELECT table_name FROM information_schema.tables").fetchall()
     tables = [r[0] for r in rows]
-
-    schemas: Dict[str, Any] = {}
-    for t in tables:
-        schemas[t] = get_table_schema(t)
-
-    return {
-        "tables": tables,
-        "schemas": schemas
-    }
+    schemas = {t: get_table_schema(t) for t in tables}
+    return {"tables": tables, "schemas": schemas}
 
 
 @mcp.tool()
 def run_sql(sql: str) -> Dict[str, Any]:
-    """
-    Execute a SQL query against the current DuckDB database.
-    Blocks destructive statements like DROP/DELETE/UPDATE.
-    Returns columns and rows as strings.
-    """
+    """Execute a SQL query against the current DuckDB database."""
     if not is_safe_sql(sql):
         return {"error": "Unsafe SQL detected. Destructive statements are not allowed."}
 
@@ -245,19 +179,15 @@ def run_sql(sql: str) -> Dict[str, Any]:
             "rows": df.astype(str).values.tolist()
         }
     except Exception as e:
-        # LLM is expected to correct SQL and retry
         return {"error": str(e)}
 
 
 @mcp.tool()
 def clear_all() -> Dict[str, Any]:
-    """
-    Reset the DuckDB database and remove all loaded files.
-    """
+    """Reset the DuckDB database and remove all loaded files."""
     reset_database()
     return {"status": "OK", "message": "Database reset and all files cleared."}
 
 
 if __name__ == "__main__":
-    # Run with: fastmcp dev server.py
     mcp.run()
