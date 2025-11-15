@@ -1,6 +1,0 @@
-{
-  "entrypoint": "server.py",
-  "environment": {
-    "dependencies": ["duckdb", "pandas", "openpyxl", "pyarrow"]
-  }
-}

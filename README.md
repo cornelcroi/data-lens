@@ -77,6 +77,74 @@ Reload: Command Palette → "MCP: Reload Servers"
 
 For Cursor, Continue.dev, or any MCP-compatible client, see [SETUP.md](SETUP.md) for detailed configuration instructions.
 
+## Try It Out
+
+Want to test Data Lens immediately? The repository includes sample datasets you can use:
+
+### Sample Files
+
+Download these files from the repository or create your own:
+
+1. **sample_ecommerce_data.csv** - E-commerce orders with products, regions, payments
+2. **sample_employee_data.csv** - Employee records with departments, salaries, performance
+3. **sample_stock_prices.csv** - Stock market data with prices and sectors
+
+### Quick Test Queries
+
+Once you've configured Data Lens, try these conversations:
+
+**E-commerce Analysis:**
+```
+You: Load sample_ecommerce_data.csv
+
+You: What's the total revenue by region?
+
+You: Which product category is most popular?
+
+You: Show me average order value by payment method
+```
+
+**Employee Analysis:**
+```
+You: Load sample_employee_data.csv
+
+You: What's the average salary by department?
+
+You: How many employees have a performance rating above 4.5?
+
+You: Show me the salary range for each position
+```
+
+**Stock Market Analysis:**
+```
+You: Load sample_stock_prices.csv
+
+You: What's the average closing price for each ticker?
+
+You: Which company had the highest trading volume?
+
+You: Show me the price range (high-low) for Tesla stock
+```
+
+### Expected Results
+
+**Revenue by region:**
+- North America: $2,153.96
+- Europe: $578.97
+- Asia: $399.85
+
+**Average salary by department:**
+- Engineering: $76,666.67
+- Marketing: $73,500
+- Sales: $71,500
+- Finance: $70,000
+- HR: $68,000
+
+**Highest volume stock:**
+- Tesla (TSLA): 91.5M average volume
+
+These queries demonstrate Data Lens's ability to instantly analyze data without any SQL knowledge!
+
 ## Example Conversations
 
 ### Business Analysis
