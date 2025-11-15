@@ -10,7 +10,6 @@
 
 Stop wrestling with pivot tables and SQL queries. **Data Lens** transforms your spreadsheets into a conversational AI assistant. Just ask questions in plain English and get instant, accurate answers powered by DuckDB.
 
-**Traditional approach:** Open Excel → Create pivot table → Write formulas → Debug errors → Get answer
 **With Data Lens:** "What's the average sales by region?" → Get answer instantly
 
 No SQL knowledge required. No formula errors. Just questions and answers.
@@ -35,47 +34,6 @@ No SQL knowledge required. No formula errors. Just questions and answers.
 - ✅ **SQL safety**: Blocks destructive operations (DROP, DELETE, UPDATE)
 - ✅ **Sample data preview**: See examples before querying
 - ✅ **In-memory performance**: Fast DuckDB-powered analytics
-
-## Quick Setup
-
-### Claude Desktop
-
-Add to your Claude Desktop config:
-
-```json
-{
-  "mcpServers": {
-    "data-lens": {
-      "command": "uvx",
-      "args": ["data-lens"]
-    }
-  }
-}
-```
-
-Reload: Settings → Developer → Reload MCP Servers
-
-### Kiro IDE
-
-Add to `.kiro/settings/mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "data-lens": {
-      "command": "uvx",
-      "args": ["data-lens"],
-      "autoApprove": ["list_tables", "list_columns", "preview_rows"]
-    }
-  }
-}
-```
-
-Reload: Command Palette → "MCP: Reload Servers"
-
-### Other MCP Clients
-
-For Cursor, Continue.dev, or any MCP-compatible client, see [SETUP.md](SETUP.md) for detailed configuration instructions.
 
 ## Try It Out
 
@@ -144,6 +102,47 @@ You: Show me the price range (high-low) for Tesla stock
 - Tesla (TSLA): 91.5M average volume
 
 These queries demonstrate Data Lens's ability to instantly analyze data without any SQL knowledge!
+
+## Quick Setup
+
+### Claude Desktop
+
+Add to your Claude Desktop config:
+
+```json
+{
+  "mcpServers": {
+    "data-lens": {
+      "command": "uvx",
+      "args": ["data-lens"]
+    }
+  }
+}
+```
+
+Reload: Settings → Developer → Reload MCP Servers
+
+### Kiro IDE
+
+Add to `.kiro/settings/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "data-lens": {
+      "command": "uvx",
+      "args": ["data-lens"],
+      "autoApprove": ["list_tables", "list_columns", "preview_rows"]
+    }
+  }
+}
+```
+
+Reload: Command Palette → "MCP: Reload Servers"
+
+### Other MCP Clients
+
+For Cursor, Continue.dev, or any MCP-compatible client, see [SETUP.md](SETUP.md) for detailed configuration instructions.
 
 ## Example Conversations
 
