@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-lens"
+version = "0.1.0"
+description = "Spreadsheet analysis MCP server with natural language queries powered by DuckDB"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "duckdb",
+    "spreadsheet",
+    "excel",
+    "csv",
+    "data-analysis",
+    "sql",
+    "ai-assistant",
+    "llm",
+    "claude"
+]
+authors = [
+    {name = "Corneliu Croitoru", email = "cornel.croitoru@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "fastmcp>=0.1.0",
+    "duckdb>=0.9.0",
+    "pandas>=2.0.0",
+    "openpyxl>=3.0.0",
+    "pyarrow>=14.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.scripts]
+data-lens = "data_lens.main:run"
+
+[project.urls]
+Homepage = "https://github.com/cornelcroi/data-lens"
+Repository = "https://github.com/cornelcroi/data-lens"
+Issues = "https://github.com/cornelcroi/data-lens/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]
+asyncio_mode = "auto"

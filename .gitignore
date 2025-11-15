@@ -14,6 +14,16 @@ venv/
 *.csv
 *.parquet
 !test_sales.csv
+data/
+
+# Local documentation
+CLAUDE_DESKTOP_CONFIG.md
+MCP_INSPECTOR_CONFIG.md
+TEST_DATASETS.md
+TASKS.md
+instructions.md
+setup_claude_desktop.sh
+sample_*.csv
 
 # IDE
 .vscode/
