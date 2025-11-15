@@ -194,6 +194,8 @@ Claude: Here's the full list of 47 items needing reorder:
 
 > **More examples:** See [USAGE_GUIDE.md](USAGE_GUIDE.md) for detailed workflows and query patterns.
 
+<!-- mcp-name: io.github.cornelcroi/data-lens -->
+
 ## Available Tools
 
 The server exposes 8 tools for data analysis:
