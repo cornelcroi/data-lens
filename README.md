@@ -56,52 +56,35 @@ Once you've configured Data Lens, try these conversations:
 You: Load sample_ecommerce_data.csv
 
 You: What's the total revenue by region?
-
-You: Which product category is most popular?
-
-You: Show me average order value by payment method
 ```
+**Result:**
+- North America: $2,153.96
+- Europe: $578.97
+- Asia: $399.85
 
 **Employee Analysis:**
 ```
 You: Load sample_employee_data.csv
 
 You: What's the average salary by department?
-
-You: How many employees have a performance rating above 4.5?
-
-You: Show me the salary range for each position
 ```
-
-**Stock Market Analysis:**
-```
-You: Load sample_stock_prices.csv
-
-You: What's the average closing price for each ticker?
-
-You: Which company had the highest trading volume?
-
-You: Show me the price range (high-low) for Tesla stock
-```
-
-### Expected Results
-
-**Revenue by region:**
-- North America: $2,153.96
-- Europe: $578.97
-- Asia: $399.85
-
-**Average salary by department:**
+**Result:**
 - Engineering: $76,666.67
 - Marketing: $73,500
 - Sales: $71,500
 - Finance: $70,000
 - HR: $68,000
 
-**Highest volume stock:**
+**Stock Market Analysis:**
+```
+You: Load sample_stock_prices.csv
+
+You: Which company had the highest trading volume?
+```
+**Result:**
 - Tesla (TSLA): 91.5M average volume
 
-These queries demonstrate Data Lens's ability to instantly analyze data without any SQL knowledge!
+These examples demonstrate Data Lens's ability to instantly analyze data without any SQL knowledge!
 
 ## Quick Setup
 
@@ -211,30 +194,6 @@ Claude: Here's the full list of 47 items needing reorder:
 
 > **More examples:** See [USAGE_GUIDE.md](USAGE_GUIDE.md) for detailed workflows and query patterns.
 
-## Development Installation
-
-For local development:
-
-```bash
-git clone https://github.com/cornelcroi/data-lens
-cd data-lens
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -e ".[dev]"
-```
-
-Run tests:
-```bash
-pytest tests/ -v
-```
-
-Run in development mode:
-```bash
-python -m data_lens.main
-```
-
-> **Detailed setup instructions:** See [SETUP.md](SETUP.md) for MCP Inspector, sample datasets, and advanced configuration.
-
 ## Available Tools
 
 The server exposes 8 tools for data analysis:
@@ -250,17 +209,6 @@ The server exposes 8 tools for data analysis:
 | `run_sql` | Execute a SQL query (read-only) |
 | `clear_all` | Reset database and clear all data |
 
-## Example Workflow
-
-1. **User**: "I've uploaded sales.xlsx, what's the average amount?"
-
-2. **AI Assistant**:
-   - Calls `load_file("sales.xlsx")` → Creates `sales` table
-   - Calls `get_schema()` → Sees columns: `date`, `amount`, `product`
-   - Generates SQL: `SELECT AVG(amount) FROM sales`
-   - Calls `run_sql(...)` → Gets result
-   - Responds: "The average amount is $185.40"
-
 ## Supported File Formats
 
 - **Excel (.xlsx)**: Multi-sheet support, each sheet becomes a table
@@ -271,7 +219,6 @@ The server exposes 8 tools for data analysis:
 ## Limitations
 
 - **Single-file mode**: Loading a new file replaces the previous dataset
-- **In-memory only**: Data is not persisted between sessions
 - **Read-only**: Only SELECT queries allowed, no data modification
 - **No JOINs across files**: Only one file active at a time
 
@@ -284,34 +231,6 @@ Install with:
 uvx data-lens
 ```
 
-## Project Structure
-
-```
-data-lens/
-├── src/
-│   └── data_lens/
-│       ├── __init__.py
-│       ├── main.py
-│       └── server.py
-├── tests/
-│   └── test_server.py
-├── pyproject.toml
-├── server.json
-├── LICENSE
-└── README.md
-```
-
-## Architecture
-
-```
-User Question → Claude Desktop → MCP Protocol → data-lens server
-                                                      ↓
-                                                   DuckDB
-                                                      ↓
-                                                SQL Results
-                                                      ↓
-                                              Natural Language Answer
-```
 
 > **Technical deep-dive:** See [TECHNICAL.md](TECHNICAL.md) for architecture details, DuckDB internals, and performance characteristics.
 
@@ -355,22 +274,6 @@ pip install --upgrade data-lens
 - Check file path is absolute or relative to current directory
 - Ensure file is not corrupted or password-protected
 
-### SQL Query Issues
-
-- Only SELECT queries are allowed (no DROP, DELETE, UPDATE)
-- Column names are case-sensitive
-- Use `get_schema` or `list_columns` to verify column names
-- The AI should auto-retry with corrected SQL on errors
-
-## Future Enhancements
-
-- [ ] Multi-file mode (load multiple files simultaneously)
-- [ ] Persistent database option
-- [ ] Query history and caching
-- [ ] Export results to files
-- [ ] Support for database connections (PostgreSQL, MySQL)
-- [ ] Advanced SQL validation
-
 ## Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
@@ -379,6 +282,3 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 MIT License - see [LICENSE](LICENSE) for details.
 
----
-
-**Built with FastMCP** | Powered by DuckDB | Made for Claude Desktop
