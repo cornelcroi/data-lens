@@ -1,40 +1,58 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.so
-*.egg
-*.egg-info/
-dist/
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
 venv/
-.env
+env/
+ENV/
+.venv
 
-# Test data
-*.xlsx
-*.csv
-*.parquet
-!test_sales.csv
-data/
-
-# Local documentation
-CLAUDE_DESKTOP_CONFIG.md
-MCP_INSPECTOR_CONFIG.md
-TEST_DATASETS.md
-TASKS.md
-instructions.md
-setup_claude_desktop.sh
-sample_*.csv
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
 
-.claude/settings.local.json
-logs
+# Project specific
+data/
+*.db
+*.duckdb
+*.lance/
 
+# Temporary files
+*.tmp
+*.log
+
+# Development
+.env
+.env.local

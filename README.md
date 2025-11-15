@@ -1,18 +1,31 @@
 # Data Lens
 
-**Analyze spreadsheets with natural language - powered by DuckDB.**
+**Ask questions about your spreadsheets in plain English. Get instant answers.**
 
 [![PyPI version](https://badge.fury.io/py/data-lens.svg)](https://badge.fury.io/py/data-lens)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Overview
+## What is Data Lens?
 
-**data-lens** enables AI assistants like Claude to:
-- Load spreadsheet files (Excel, CSV, Parquet) into an in-memory database
-- Inspect data schemas and preview samples
-- Generate and execute SQL queries based on natural language questions
-- Provide data analysis results in conversational form
+Stop wrestling with pivot tables and SQL queries. **Data Lens** transforms your spreadsheets into a conversational AI assistant. Just ask questions in plain English and get instant, accurate answers powered by DuckDB.
+
+**Traditional approach:** Open Excel → Create pivot table → Write formulas → Debug errors → Get answer
+**With Data Lens:** "What's the average sales by region?" → Get answer instantly
+
+No SQL knowledge required. No formula errors. Just questions and answers.
+
+## See It In Action
+
+*Demo coming soon - spreadsheet analysis in action*
+
+## Why Data Lens?
+
+- **🗣️ Natural Language** - Ask questions like you'd ask a person
+- **⚡ Instant Results** - DuckDB-powered analytics, no waiting
+- **🔒 100% Local** - Your data never leaves your machine
+- **🆓 Completely Free** - No API keys, no subscriptions, no limits
+- **📊 Multiple Formats** - Excel, CSV, TSV, Parquet - we handle them all
 
 ## Features
 
@@ -63,6 +76,73 @@ Reload: Command Palette → "MCP: Reload Servers"
 ### Other MCP Clients
 
 For Cursor, Continue.dev, or any MCP-compatible client, see [SETUP.md](SETUP.md) for detailed configuration instructions.
+
+## Example Conversations
+
+### Business Analysis
+
+```
+You: Load sales_data.xlsx and show me revenue by region
+
+Claude: I've loaded your sales data. Here's the revenue breakdown:
+- North America: $2,456,789
+- Europe: $1,892,345
+- Asia Pacific: $3,124,567
+
+Asia Pacific is your top-performing region with 43% of total revenue.
+
+You: Which products sold best in Europe?
+
+Claude: Top 5 products in Europe by revenue:
+1. Premium Widget Pro - $487,234
+2. Standard Widget - $312,456
+3. Widget Plus - $245,123
+4. Mini Widget - $198,765
+5. Widget Starter - $156,432
+```
+
+### Data Exploration
+
+```
+You: I've uploaded customer_data.csv. What insights can you find?
+
+Claude: I've analyzed your customer data (2,847 customers). Here are key insights:
+
+- Average customer lifetime value: $3,245
+- 68% of customers are in the 25-45 age group
+- Email marketing has 3.2x higher conversion than other channels
+- Top 10% of customers generate 41% of total revenue
+
+Would you like me to dig deeper into any of these?
+
+You: Show me monthly growth trends
+
+Claude: Monthly customer acquisition:
+- January: 234 new customers (+12% vs Dec)
+- February: 267 new customers (+14% vs Jan)
+- March: 312 new customers (+17% vs Feb)
+
+You're seeing accelerating growth - Q1 ended 33% higher than it started.
+```
+
+### Quick Questions
+
+```
+You: Load inventory.csv. How many items are below reorder level?
+
+Claude: 47 items are currently below their reorder levels.
+Here are the most critical (< 25% of reorder level):
+- SKU-2847: 12 units (need 100)
+- SKU-1923: 8 units (need 75)
+- SKU-3456: 15 units (need 90)
+
+You: Export a list of all items to reorder
+
+Claude: Here's the full list of 47 items needing reorder:
+[Table with SKU, Current Stock, Reorder Level, Qty Needed]
+```
+
+> **More examples:** See [USAGE_GUIDE.md](USAGE_GUIDE.md) for detailed workflows and query patterns.
 
 ## Development Installation
 
@@ -165,6 +245,28 @@ User Question → Claude Desktop → MCP Protocol → data-lens server
                                                       ↓
                                               Natural Language Answer
 ```
+
+> **Technical deep-dive:** See [TECHNICAL.md](TECHNICAL.md) for architecture details, DuckDB internals, and performance characteristics.
+
+## FAQ
+
+**How is this different from Excel formulas?**
+Excel requires you to write formulas and know cell references. Data Lens lets you ask questions in plain English. Instead of `=AVERAGEIF(B:B,"North",C:C)`, just ask "What's the average for North region?"
+
+**What about other SQL clients?**
+Traditional SQL clients require you to know SQL syntax. Data Lens translates your questions into SQL automatically. You get the power of SQL without learning it.
+
+**Is my data secure?**
+100% secure. Everything runs locally on your machine. Data Lens never sends your data anywhere. No cloud, no API calls, completely private.
+
+**What file size can it handle?**
+Data Lens uses in-memory analytics, so it's limited by your RAM. Most spreadsheets under 100MB work great. For larger datasets, consider using database connections (roadmap feature).
+
+**Can I use this in production?**
+Yes! Data Lens is production-ready. It's read-only by design (no DROP/DELETE/UPDATE), so it's safe for production data. Use it for reporting, analysis, and insights.
+
+**Why DuckDB?**
+DuckDB is like SQLite for analytics - fast, embedded, and needs no setup. It handles complex queries on millions of rows instantly. Perfect for spreadsheet analysis.
 
 ## Troubleshooting
 

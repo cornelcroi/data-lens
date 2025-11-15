@@ -1,0 +1,21 @@
+employee_id,first_name,last_name,department,position,hire_date,salary,performance_rating,manager_id,location
+E001,Sarah,Johnson,Engineering,Senior Engineer,2020-03-15,95000,4.5,E010,San Francisco
+E002,Michael,Chen,Engineering,Software Engineer,2021-06-01,75000,4.2,E010,San Francisco
+E003,Emily,Rodriguez,Marketing,Marketing Manager,2019-08-20,85000,4.7,E015,New York
+E004,James,Kim,Sales,Sales Representative,2022-01-10,65000,4.0,E012,Chicago
+E005,Lisa,Patel,Engineering,Junior Engineer,2023-02-15,60000,3.8,E010,San Francisco
+E006,Robert,Taylor,Finance,Financial Analyst,2020-11-03,70000,4.3,E013,New York
+E007,Jennifer,Lee,HR,HR Specialist,2021-09-12,68000,4.4,E014,San Francisco
+E008,David,Martinez,Sales,Senior Sales Rep,2019-05-22,78000,4.6,E012,Chicago
+E009,Amanda,Wilson,Marketing,Content Writer,2022-07-18,62000,4.1,E015,New York
+E010,William,Anderson,Engineering,Engineering Director,2018-01-10,125000,4.8,,San Francisco
+E011,Jessica,Thomas,Engineering,Software Engineer,2021-03-25,76000,4.3,E010,Austin
+E012,Christopher,Garcia,Sales,Sales Director,2017-09-15,110000,4.7,,Chicago
+E013,Ashley,Moore,Finance,Finance Director,2018-06-20,115000,4.6,,New York
+E014,Matthew,Jackson,HR,HR Director,2019-02-14,105000,4.5,,San Francisco
+E015,Sophia,White,Marketing,Marketing Director,2018-11-08,108000,4.8,,New York
+E016,Daniel,Harris,Engineering,DevOps Engineer,2020-10-05,82000,4.4,E010,Austin
+E017,Olivia,Martin,Marketing,Social Media Manager,2021-12-01,71000,4.2,E015,New York
+E018,Joshua,Thompson,Sales,Sales Representative,2023-04-12,64000,3.9,E012,Chicago
+E019,Isabella,Robinson,Finance,Accountant,2022-08-30,67000,4.0,E013,New York
+E020,Ethan,Clark,Engineering,QA Engineer,2021-05-17,72000,4.3,E010,San Francisco
