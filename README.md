@@ -95,9 +95,9 @@ Add to your Claude Desktop config:
 ```json
 {
   "mcpServers": {
-    "data-lens": {
+    "mcp-data-lens": {
       "command": "uvx",
-      "args": ["data-lens"]
+      "args": ["mcp-data-lens"]
     }
   }
 }
@@ -112,9 +112,9 @@ Add to `.kiro/settings/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "data-lens": {
+    "mcp-data-lens": {
       "command": "uvx",
-      "args": ["data-lens"],
+      "args": ["mcp-data-lens"],
       "autoApprove": ["list_tables", "list_columns", "preview_rows"]
     }
   }
