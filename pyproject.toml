@@ -51,7 +51,7 @@ dev = [
 ]
 
 [project.scripts]
-data-lens = "data_lens.main:run"
+mcp-data-lens = "data_lens.main:run"
 
 [project.urls]
 Homepage = "https://github.com/cornelcroi/data-lens"
