@@ -3,12 +3,12 @@
   "name": "io.github.cornelcroi/data-lens",
   "title": "Data Lens",
   "description": "Spreadsheet analysis with natural language queries. Excel, CSV, Parquet support via DuckDB",
-  "version": "0.1.0",
+  "version": "0.0.3",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "mcp-data-lens",
-      "version": "0.1.0",
+      "version": "0.0.3",
       "transport": {
         "type": "stdio"
       }

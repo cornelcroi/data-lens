@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-data-lens"
-version = "0.1.0"
+version = "0.0.3"
 description = "Spreadsheet analysis MCP server with natural language queries powered by DuckDB"
 readme = "README.md"
 requires-python = ">=3.11"
