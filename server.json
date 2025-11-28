@@ -7,7 +7,7 @@
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "data-lens",
+      "identifier": "mcp-data-lens",
       "version": "0.1.0",
       "transport": {
         "type": "stdio"
